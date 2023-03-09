@@ -1,4 +1,4 @@
-name: Diggity Action
+name: BOM Diggity Action
 description: A Github Action that utilizes Diggity to generate software bill-of-materials (SBOM).
 author: Carbonetes
 
