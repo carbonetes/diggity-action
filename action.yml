@@ -1,0 +1,16 @@
+name: Diggity Action
+description: A Github Action that utilizes Diggity to generate software bill-of-materials (SBOM).
+author: Carbonetes
+
+inputs:
+  directory:
+    required: true
+    description: The path to the directory to be scanned.
+  output_type:
+    description: The desired SBOM output type (default table).
+  enabled_parsers:
+    description: Selected parsers enabled (default all).
+
+runs:
+  using: node16
+  main: index.js

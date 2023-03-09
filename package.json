@@ -1,0 +1,27 @@
+{
+  "name": "diggity-action",
+  "version": "1.0.0",
+  "description": "A Github Action that utilizes Diggity to generate software bill-of-materials (SBOM).",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/carbonetes/diggity-action.git"
+  },
+  "author": "carbonetes",
+  "license": "Apache-2.0",
+  "bugs": {
+    "url": "https://github.com/carbonetes/diggity-action/issues"
+  },
+  "homepage": "https://github.com/carbonetes/diggity-action#readme",
+  "keywords": [
+    "GitHub",
+    "Actions"
+  ],
+  "dependencies": {
+    "@actions/core": "^1.10.0",
+    "@actions/exec": "^1.1.1"
+  }
+}
