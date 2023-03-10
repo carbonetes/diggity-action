@@ -10,6 +10,8 @@ inputs:
     description: The desired SBOM output type (default table).
   enabled_parsers:
     description: Selected parsers enabled (default all).
+  output_file:
+    description: Save SBOM results to a file.
 
 runs:
   using: node16

@@ -23,6 +23,7 @@ jobs:
           directory: "." # path to the directory to be scanned
           output_type: json # desired SBOM output type (default table)
           enabled_parsers: apk,go # selected parsers enabled (default all)
+          output_file: sbom.json # save SBOM results to a file.
 
 ```
 

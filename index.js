@@ -4,6 +4,7 @@ const fs = require('fs');
 // npm
 const core = require('@actions/core');
 const exec = require('@actions/exec');
+const artifact = require('@actions/artifact')
 /**  */
 
 /** var */
@@ -86,6 +87,24 @@ function checkEnabledParsers() {
     return enabledParsers
 }
 
+// Check user's input for output file
+function checkOutputFile() {
+    let outputFile = core.getInput('output_file')
+    if (outputFile === null || outputFile === '') {
+        return null;
+    }
+    return outputFile
+}
+
+// Upload SBOM as an artifact
+async function uploadSBOM(sbomFile) {
+    if (sbomFile === null || sbomFile === '') return
+    const client = artifact.create()
+    const files = [sbomFile]
+    const rootDir = "."
+    await client.uploadArtifact(sbomFile, files, rootDir)
+}
+
 async function constructCommandExec(scanOption) {
     // Check scan option
     switch (scanOption) {
@@ -98,8 +117,17 @@ async function constructCommandExec(scanOption) {
             const enabledParsers = checkEnabledParsers()
             if (enabledParsers !== ALL) args.push(`--enabled-parsers=${enabledParsers}`)
 
+            // Check for output file
+            const outputFile = checkOutputFile()
+            if (outputFile !== null) args.push('-f', outputFile)
+
             // Execute Diggity
-            exec.exec('./bin/diggity', args);
+            exec.exec('./bin/diggity', args)
+            .then(()=>{
+                // Upload SBOM
+                uploadSBOM(outputFile)
+            })
+
             break;
 
         default:
