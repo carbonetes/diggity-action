@@ -4,8 +4,7 @@ author: Carbonetes
 
 inputs:
   directory:
-    required: true
-    description: The path directory to scan.
+    description: The path to the directory to be scanned (default scanning option).
   output_type:
     description: The desired SBOM output type (default table).
   enabled_parsers:
@@ -22,6 +21,8 @@ inputs:
     description: Maximum file size that the secret will search (default 10485760).
   secrets_content_regex:
     description: Secret content regex are searched within files that matches the provided regular expression.
+  tar:
+    description: The path to the tar file to be scanned. Use this instead of directory for tar file scanning.
 
 runs:
   using: node16

@@ -9,10 +9,12 @@ const artifact = require('@actions/artifact')
 
 /** var */
 var directoryInput;
+var tarInput;
 var scanOption;
 
 /** const */
 const DIRECTORY = 'directory';
+const TAR = 'tar'
 const TABLE = 'table';
 const ALL = 'all'
 
@@ -63,9 +65,17 @@ async function run() {
 
 // Check user's input and set scan option
 function checkScanOption() {
-    directoryInput = core.getInput('directory', { required: true })
-    if (directoryInput !== null || directoryInput !== '') {
+    directoryInput = core.getInput('directory')
+    tarInput = core.getInput('tar')
+
+    if (directoryInput !== null && directoryInput !== '') {
         return DIRECTORY;
+    } else if (tarInput !== null && tarInput !== '') {
+        return TAR;
+    } else {
+        // Scan current working directory by default
+        directoryInput = "."
+        return DIRECTORY
     }
 }
 
@@ -177,27 +187,40 @@ function buildFlagArgs(args) {
 }
 
 async function constructCommandExec(scanOption) {
+    // Check for output type
+    const outputType = checkOutputType()
+
     // Check scan option
     switch (scanOption) {
         case DIRECTORY:
-            // Check for output type
-            const outputType = checkOutputType()
-            const args = buildFlagArgs(["-d", directoryInput, "-o", outputType])
+            // Build args
+            const dirArgs = buildFlagArgs(["-d", directoryInput, "-o", outputType])
 
             // Execute Diggity
-            exec.exec('./bin/diggity', args)
+            exec.exec('./bin/diggity', dirArgs)
             .then(()=>{
                 // Upload SBOM
                 uploadSBOM()
             })
 
             break;
+        case TAR:
+            // Build args
+            const tarArgs = buildFlagArgs(["-t", tarInput, "-o", outputType])
 
+            // Execute Diggity
+            exec.exec('./bin/diggity', tarArgs)
+            .then(()=>{
+                // Upload SBOM
+                uploadSBOM()
+            })
+
+            break;
         default:
             core.setFailed('Scan Option not found')
             break;
     }
 }
 
-// Start diggity-Action
+// Start diggity-action
 run();

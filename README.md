@@ -5,7 +5,7 @@
 # Diggity Github Action
 A Github Action that utilizes [Diggity](https://github.com/carbonetes/diggity#readme) to generate software bill-of-materials (SBOM).
 
-## Directory Scanning
+## Scanning
 
 ```yaml
 name: Diggity Action
@@ -20,7 +20,7 @@ jobs:
       - name: Run carbonetes/diggity # runs the github action of diggity
         uses: carbonetes/diggity@v1.0.0 # runs the github action using this version
         with: # user’s input reference for scanning options, results that diggity-action supports.
-          directory: "." # path to directory to be scanned
+          directory: "." # path to the directory to be scanned (default option for scanning)
           output_type: json # desired output format (default table)
           enabled_parsers: apk,go # specified enabled parsers (default all)
           disable_file_listing: true #  disables file listing from package metadata (default false).
@@ -28,6 +28,7 @@ jobs:
           secret_exclude_filenames: filename_1,filename_2 # exclude secret searching for each specified filenames.
           secret_max_file_size: 10485760 # maximum file size that the secret will search (default 10485760).
           secrets_content_regex: content_regex # secret content regex are searched within files that matches the provided regular expression.
+          tar: layer.tar # path to tar file to be scanned (use this instead of directory for tar file scanning).
 
 ```
 
