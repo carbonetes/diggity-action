@@ -5,13 +5,23 @@ author: Carbonetes
 inputs:
   directory:
     required: true
-    description: The path to the directory to be scanned.
+    description: The path directory to scan.
   output_type:
     description: The desired SBOM output type (default table).
   enabled_parsers:
-    description: Selected parsers enabled (default all).
+    description: Specify enabled parsers (default all).
   output_file:
-    description: Save SBOM results to a file.
+    description: Save SBOM results to the output file.
+  disable_file_listing:
+    description: Disables file listing from package metadata (default false).
+  disable_secret_search:
+    description: Disables secret search (default false).
+  secret_exclude_filenames:
+    description: Exclude secret searching for each specified filenames.
+  secret_max_file_size:
+    description: Maximum file size that the secret will search (default 10485760).
+  secrets_content_regex:
+    description: Secret content regex are searched within files that matches the provided regular expression.
 
 runs:
   using: node16
